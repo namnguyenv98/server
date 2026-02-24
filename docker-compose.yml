@@ -27,7 +27,7 @@ services:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=envy@123
+      - GF_SECURITY_ADMIN_PASSWORD=anvy@123
 volumes:
   prometheus-data:
   grafana-data:
