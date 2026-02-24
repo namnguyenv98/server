@@ -1,0 +1,13 @@
+apiVersion: 1
+contactPoints:
+    - orgId: 1
+      name: google-chat
+      receivers:
+        - uid: efct1ruzuzri8e
+          type: webhook
+          settings:
+            httpMethod: POST
+            payload:
+                template: "{\n  \"text\": \"\U0001F6A8 {{ .CommonAnnotations.summary }}\\n\\n{{ .CommonAnnotations.description }}\"\n}"
+            url: https://chat.googleapis.com/v1/spaces/AAQAEOXkHXg/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=rAD_rgQCX4-ktD7WM7ulVgksRIsu-_AvemmMwSt2NO8
+          disableResolveMessage: false
