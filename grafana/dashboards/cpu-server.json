@@ -19,7 +19,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 0,
   "links": [],
   "panels": [
     {
@@ -84,7 +84,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
+        "h": 8,
         "w": 8,
         "x": 0,
         "y": 0
@@ -111,7 +111,7 @@
             "uid": "efcpeq0vcvk74c"
           },
           "editorMode": "code",
-          "expr": "100 * (\r\n  1 - avg by(instance) (\r\n    rate(windows_cpu_time_total{mode=\"idle\"}[5m])\r\n  )\r\n)\r\n",
+          "expr": "(\r\n100 * (1 - avg by (instance) (\r\n  rate(node_cpu_seconds_total{mode=\"idle\"}[5m])\r\n))\r\n)\r\nor\r\n(\r\n100 * (1 - avg by (instance) (\r\n  rate(windows_cpu_time_total{mode=\"idle\"}[5m])\r\n))\r\n)\r\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -182,7 +182,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
+        "h": 8,
         "w": 8,
         "x": 8,
         "y": 0
@@ -205,7 +205,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "100 * (\r\n  1 - (\r\n    windows_memory_available_bytes\r\n    /\r\n    windows_memory_physical_total_bytes\r\n  )\r\n)\r\n",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_memory_MemAvailable_bytes\r\n      /\r\n      node_memory_MemTotal_bytes\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n      windows_memory_available_bytes\r\n      /\r\n      windows_memory_physical_total_bytes\r\n    )\r\n  )\r\n)\r\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -276,7 +276,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
+        "h": 8,
         "w": 8,
         "x": 16,
         "y": 0
@@ -299,7 +299,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "100 * (\r\n  1 - (\r\n    windows_logical_disk_free_bytes{volume!=\"HarddiskVolume1\"}\r\n    /\r\n    windows_logical_disk_size_bytes{volume!=\"HarddiskVolume1\"}\r\n  )\r\n)",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_filesystem_avail_bytes{fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n      /\r\n      node_filesystem_size_bytes{fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n     windows_logical_disk_free_bytes{volume=~\"[A-Z]:\"}\r\n      /\r\n      windows_logical_disk_size_bytes{volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -373,7 +373,7 @@
         "h": 5,
         "w": 4,
         "x": 0,
-        "y": 10
+        "y": 8
       },
       "id": 5,
       "options": {
@@ -393,7 +393,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "100 * (\r\n  1 - avg by (instance) (\r\n    rate(windows_cpu_time_total{instance=\"192.168.88.219:9182\", mode=\"idle\"}[5m])\r\n  )\r\n)\r\n",
+          "expr": "(\r\n100 * (1 - avg by (instance) (\r\n  rate(node_cpu_seconds_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\nor\r\n(\r\n100 * (1 - avg by (instance) (\r\n  rate(windows_cpu_time_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -467,7 +467,7 @@
         "h": 5,
         "w": 4,
         "x": 4,
-        "y": 10
+        "y": 8
       },
       "id": 7,
       "options": {
@@ -487,13 +487,389 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "100 * (\r\n  1 - avg by (instance) (\r\n    rate(windows_cpu_time_total{instance=\"localhost:9182\", mode=\"idle\"}[5m])\r\n  )\r\n)",
+          "expr": "(\r\n100 * (1 - avg by (instance) (\r\n  rate(node_cpu_seconds_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\nor\r\n(\r\n100 * (1 - avg by (instance) (\r\n  rate(windows_cpu_time_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "CPU SV 2",
+      "title": "CPU SV1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 8
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n100 * (1 - avg by (instance) (\r\n  rate(node_cpu_seconds_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\nor\r\n(\r\n100 * (1 - avg by (instance) (\r\n  rate(windows_cpu_time_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CPU SV1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 8
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n100 * (1 - avg by (instance) (\r\n  rate(node_cpu_seconds_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\nor\r\n(\r\n100 * (1 - avg by (instance) (\r\n  rate(windows_cpu_time_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CPU SV1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 8
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n100 * (1 - avg by (instance) (\r\n  rate(node_cpu_seconds_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\nor\r\n(\r\n100 * (1 - avg by (instance) (\r\n  rate(windows_cpu_time_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CPU SV1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 8
+      },
+      "id": 17,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n100 * (1 - avg by (instance) (\r\n  rate(node_cpu_seconds_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\nor\r\n(\r\n100 * (1 - avg by (instance) (\r\n  rate(windows_cpu_time_total{instance=\"192.168.88.219:9182\",mode=\"idle\"}[5m])\r\n))\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CPU SV1",
       "type": "timeseries"
     },
     {
@@ -561,7 +937,7 @@
         "h": 5,
         "w": 4,
         "x": 0,
-        "y": 15
+        "y": 13
       },
       "id": 4,
       "options": {
@@ -581,7 +957,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "100 * (\r\n  1 - (\r\n    windows_memory_available_bytes{instance=\"192.168.88.219:9182\"}\r\n    /\r\n    windows_memory_physical_total_bytes{instance=\"192.168.88.219:9182\"}\r\n  )\r\n)",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_memory_MemAvailable_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      node_memory_MemTotal_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n      windows_memory_available_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      windows_memory_physical_total_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -655,7 +1031,7 @@
         "h": 5,
         "w": 4,
         "x": 4,
-        "y": 15
+        "y": 13
       },
       "id": 8,
       "options": {
@@ -675,13 +1051,389 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "100 * (\r\n  1 - (\r\n    windows_memory_available_bytes{instance=\"localhost:9182\"}\r\n    /\r\n    windows_memory_physical_total_bytes{instance=\"localhost:9182\"}\r\n  )\r\n)",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_memory_MemAvailable_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      node_memory_MemTotal_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n      windows_memory_available_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      windows_memory_physical_total_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "RAM SV 2",
+      "title": "RAM Server 1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 8,
+        "y": 13
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_memory_MemAvailable_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      node_memory_MemTotal_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n      windows_memory_available_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      windows_memory_physical_total_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "RAM Server 1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 13
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_memory_MemAvailable_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      node_memory_MemTotal_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n      windows_memory_available_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      windows_memory_physical_total_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "RAM Server 1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 13
+      },
+      "id": 18,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_memory_MemAvailable_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      node_memory_MemTotal_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n      windows_memory_available_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      windows_memory_physical_total_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "RAM Server 1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 13
+      },
+      "id": 19,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_memory_MemAvailable_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      node_memory_MemTotal_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n      windows_memory_available_bytes{instance=\"192.168.88.219:9182\"}\r\n      /\r\n      windows_memory_physical_total_bytes{instance=\"192.168.88.219:9182\"}\r\n    )\r\n  )\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "RAM Server 1",
       "type": "timeseries"
     },
     {
@@ -749,7 +1501,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 20
+        "y": 18
       },
       "id": 6,
       "options": {
@@ -769,7 +1521,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "100 * (\r\n  1 - (\r\n    windows_logical_disk_free_bytes{instance=\"192.168.88.219:9182\", volume!=\"HarddiskVolume1\"}\r\n    /\r\n    on(instance, volume)\r\n    windows_logical_disk_size_bytes{instance=\"192.168.88.219:9182\", volume!=\"HarddiskVolume1\"}\r\n  )\r\n)",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_filesystem_avail_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n      /\r\n      node_filesystem_size_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n     windows_logical_disk_free_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n      /\r\n      windows_logical_disk_size_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -843,7 +1595,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 20
+        "y": 18
       },
       "id": 9,
       "options": {
@@ -863,13 +1615,389 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "100 * (\r\n  1 - (\r\n    windows_logical_disk_free_bytes{instance = \"localhost:9182\", volume!=\"HarddiskVolume1\"}\r\n    /\r\n    windows_logical_disk_size_bytes{instance = \"localhost:9182\", volume!=\"HarddiskVolume1\"}\r\n  )\r\n)",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_filesystem_avail_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n      /\r\n      node_filesystem_size_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n     windows_logical_disk_free_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n      /\r\n      windows_logical_disk_size_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\n",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "DISK SV2",
+      "title": "DISK CPU 1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 18
+      },
+      "id": 15,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_filesystem_avail_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n      /\r\n      node_filesystem_size_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n     windows_logical_disk_free_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n      /\r\n      windows_logical_disk_size_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "DISK CPU 1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 18
+      },
+      "id": 20,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_filesystem_avail_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n      /\r\n      node_filesystem_size_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n     windows_logical_disk_free_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n      /\r\n      windows_logical_disk_size_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "DISK CPU 1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 18
+      },
+      "id": 21,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_filesystem_avail_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n      /\r\n      node_filesystem_size_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n     windows_logical_disk_free_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n      /\r\n      windows_logical_disk_size_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "DISK CPU 1",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "efcpeq0vcvk74c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 18
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.3.2",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(\r\n  100 * (\r\n    1 - (\r\n      node_filesystem_avail_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n      /\r\n      node_filesystem_size_bytes{instance=\"192.168.88.219:9182\",fstype!=\"tmpfs\",fstype!=\"overlay\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\nor\r\n(\r\n  100 * (\r\n    1 - (\r\n     windows_logical_disk_free_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n      /\r\n      windows_logical_disk_size_bytes{instance=\"192.168.88.219:9182\",volume=~\"[A-Z]:\"}\r\n    )\r\n  )\r\n)\r\n",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "DISK CPU 1",
       "type": "timeseries"
     }
   ],
@@ -887,5 +2015,5 @@
   "timezone": "browser",
   "title": "CPU server 1",
   "uid": "adkwnz4",
-  "version": 19
+  "version": 28
 }
